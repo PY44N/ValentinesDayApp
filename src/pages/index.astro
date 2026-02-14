@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <html lang="en">
@@ -9,9 +8,358 @@
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Happy Valentine's Day 💖</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+		<style>
+			*, *::before, *::after {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				min-height: 100vh;
+				background: linear-gradient(135deg, #ffe4ec 0%, #ffd6e7 50%, #ffb3c6 100%);
+				font-family: 'Nunito', sans-serif;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				overflow: hidden;
+				position: relative;
+			}
+
+			/* Floating background hearts */
+			.bg-hearts {
+				position: fixed;
+				inset: 0;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			.bg-heart {
+				position: absolute;
+				bottom: -60px;
+				font-size: 1.5rem;
+				animation: floatUp linear infinite;
+				opacity: 0;
+			}
+
+			@keyframes floatUp {
+				0% {
+					transform: translateY(0) rotate(0deg) scale(1);
+					opacity: 0.6;
+				}
+				50% {
+					opacity: 0.4;
+					transform: translateY(-50vh) rotate(20deg) scale(1.1);
+				}
+				100% {
+					transform: translateY(-110vh) rotate(-10deg) scale(0.8);
+					opacity: 0;
+				}
+			}
+
+			/* Card */
+			.card {
+				position: relative;
+				z-index: 1;
+				background: rgba(255, 255, 255, 0.85);
+				backdrop-filter: blur(12px);
+				border-radius: 2rem;
+				padding: 3rem 2.5rem;
+				text-align: center;
+				max-width: 480px;
+				width: calc(100% - 2rem);
+				box-shadow: 0 20px 60px rgba(255, 107, 138, 0.3), 0 4px 16px rgba(255, 107, 138, 0.2);
+				border: 2px solid rgba(255, 107, 138, 0.2);
+			}
+
+			.focal-emoji {
+				font-size: 5rem;
+				display: block;
+				margin-bottom: 1rem;
+				animation: bounce 1.4s ease-in-out infinite;
+			}
+
+			@keyframes bounce {
+				0%, 100% { transform: translateY(0); }
+				50% { transform: translateY(-14px); }
+			}
+
+			h1 {
+				font-family: 'Pacifico', cursive;
+				font-size: clamp(1.6rem, 5vw, 2.2rem);
+				color: #c2185b;
+				margin-bottom: 0.6rem;
+				line-height: 1.3;
+			}
+
+			.subtitle {
+				color: #ad1457;
+				font-size: 1rem;
+				margin-bottom: 2rem;
+				font-weight: 600;
+				opacity: 0.8;
+			}
+
+			/* Buttons */
+			.buttons {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			button {
+				font-family: 'Nunito', sans-serif;
+				font-size: 1.1rem;
+				font-weight: 700;
+				padding: 0.75rem 2rem;
+				border: none;
+				border-radius: 999px;
+				cursor: pointer;
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+				white-space: nowrap;
+			}
+
+			#yes-btn {
+				background: linear-gradient(135deg, #ff6b8a, #ff1744);
+				color: white;
+				box-shadow: 0 4px 16px rgba(255, 23, 68, 0.4);
+			}
+
+			#yes-btn:hover {
+				transform: scale(1.08);
+				box-shadow: 0 6px 24px rgba(255, 23, 68, 0.5);
+			}
+
+			#no-btn {
+				background: white;
+				color: #ff6b8a;
+				border: 2px solid #ff6b8a;
+				box-shadow: 0 2px 8px rgba(255, 107, 138, 0.2);
+				position: fixed;
+				transition: none;
+				/* make always on top */
+				z-index: 10;
+			}
+
+			#no-btn.shrunk {
+				font-size: 0.75rem;
+				padding: 0.5rem 1.2rem;
+			}
+
+			/* Celebration */
+			.celebration {
+				display: none;
+				flex-direction: column;
+				align-items: center;
+				gap: 1rem;
+			}
+
+			.celebration.active {
+				display: flex;
+			}
+
+			.celebration-emoji {
+				font-size: 5rem;
+				animation: spin 1s ease-out, bounce 1.4s ease-in-out 1s infinite;
+			}
+
+			@keyframes spin {
+				0% { transform: rotate(-180deg) scale(0); opacity: 0; }
+				100% { transform: rotate(0deg) scale(1); opacity: 1; }
+			}
+
+			.celebration h2 {
+				font-family: 'Pacifico', cursive;
+				font-size: clamp(1.4rem, 4vw, 1.9rem);
+				color: #c2185b;
+				line-height: 1.4;
+			}
+
+			.celebration p {
+				color: #ad1457;
+				font-size: 1rem;
+				font-weight: 600;
+			}
+
+		</style>
+		<!-- Global styles for dynamically created elements (Astro scoping won't reach them) -->
+		<style is:global>
+			#rain-container {
+				position: fixed;
+				inset: 0;
+				pointer-events: none;
+				z-index: 2;
+				overflow: hidden;
+			}
+
+			.rain-heart {
+				position: absolute;
+				top: -60px;
+				font-size: 1.8rem;
+				pointer-events: none;
+				animation: fallDown 2.2s ease-in forwards;
+			}
+
+			@keyframes fallDown {
+				0% {
+					transform: translateY(-80px) rotate(0deg);
+					opacity: 1;
+				}
+				80% { opacity: 1; }
+				100% {
+					transform: translateY(110vh) rotate(360deg);
+					opacity: 0;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<!-- Floating background hearts -->
+		<div class="bg-hearts" aria-hidden="true">
+			<span class="bg-heart" style="left:5%;animation-duration:7s;animation-delay:0s;font-size:1.2rem">🤍</span>
+			<span class="bg-heart" style="left:15%;animation-duration:9s;animation-delay:1s">💗</span>
+			<span class="bg-heart" style="left:27%;animation-duration:6s;animation-delay:2.5s;font-size:1rem">🌸</span>
+			<span class="bg-heart" style="left:40%;animation-duration:8s;animation-delay:0.5s">💕</span>
+			<span class="bg-heart" style="left:55%;animation-duration:10s;animation-delay:1.8s;font-size:1.1rem">❤️</span>
+			<span class="bg-heart" style="left:68%;animation-duration:7.5s;animation-delay:3s">💓</span>
+			<span class="bg-heart" style="left:80%;animation-duration:9s;animation-delay:0.8s;font-size:1rem">🌺</span>
+			<span class="bg-heart" style="left:92%;animation-duration:6.5s;animation-delay:2s">💖</span>
+		</div>
+
+		<div class="card">
+			<!-- Default state -->
+			<div id="prompt-state">
+				<span class="focal-emoji" aria-hidden="true">🩵</span>
+				<h1>Dimples, will you be my Valentine?</h1>
+				<br />
+				<div class="buttons">
+					<button id="yes-btn">Yes!</button>
+				</div>
+			</div>
+
+			<!-- Celebration state -->
+			<div class="celebration" id="celebration-state">
+				<span class="celebration-emoji" aria-hidden="true">🩵</span>
+				<h2>Yay!</h2>
+				<p>I love you so much! Happy Valentine's Day!</p>
+			</div>
+		</div>
+
+		<!-- No button lives at body level so backdrop-filter on .card can't trap it -->
+		<button id="no-btn">No ☹️</button>
+
+		<!-- Container for heart rain so they don't become flex children of body -->
+		<div id="rain-container" aria-hidden="true"></div>
+
+		<script>
+			const yesBtn = document.getElementById('yes-btn') as HTMLButtonElement;
+			const noBtn = document.getElementById('no-btn') as HTMLButtonElement;
+			const promptState = document.getElementById('prompt-state') as HTMLElement;
+			const celebrationState = document.getElementById('celebration-state') as HTMLElement;
+
+			let escapeCount = 0;
+
+			function getBtnSize() {
+				// Measure the button; fall back to generous estimates so the
+				// safe-range calculation never collapses to zero.
+				return {
+					w: noBtn.offsetWidth  > 10 ? noBtn.offsetWidth  : 140,
+					h: noBtn.offsetHeight > 10 ? noBtn.offsetHeight : 48,
+				};
+			}
+
+			function clamp(val: number, min: number, max: number) {
+				return Math.min(Math.max(val, min), max);
+			}
+
+			function getRandomPosition() {
+				const margin = 20;
+				const { w, h } = getBtnSize();
+				const x = margin + Math.random() * Math.max(0, window.innerWidth  - w - 2 * margin);
+				const y = margin + Math.random() * Math.max(0, window.innerHeight - h - 2 * margin);
+				return { x, y };
+			}
+
+			function moveNoBtn() {
+				const { x, y } = getRandomPosition();
+				noBtn.style.left = `${x}px`;
+				noBtn.style.top  = `${y}px`;
+
+				escapeCount++;
+				if (escapeCount >= 5) {
+					noBtn.classList.add('shrunk');
+					noBtn.textContent = "Too slow! 😜";
+				}
+			}
+
+			// Place No button initially next to Yes, clamped to viewport
+			function initNoBtn() {
+				const margin = 20;
+				const { w, h } = getBtnSize();
+				const yesRect = yesBtn.getBoundingClientRect();
+				const x = clamp(yesRect.right + 16, margin, window.innerWidth  - w - margin);
+				const y = clamp(yesRect.top,         margin, window.innerHeight - h - margin);
+				noBtn.style.left = `${x}px`;
+				noBtn.style.top  = `${y}px`;
+			}
+
+			// Run after layout
+			requestAnimationFrame(() => {
+				requestAnimationFrame(initNoBtn);
+			});
+
+			noBtn.addEventListener('mouseenter', moveNoBtn);
+			noBtn.addEventListener('touchstart', (e) => {
+				e.preventDefault();
+				moveNoBtn();
+			}, { passive: false });
+
+			// Fallback click — in case they somehow click it
+			noBtn.addEventListener('click', moveNoBtn);
+
+			// Yes button
+			const rainContainer = document.getElementById('rain-container') as HTMLElement;
+
+			function spawnRainHeart() {
+				const heart = document.createElement('span');
+				heart.className = 'rain-heart';
+				heart.textContent = ['💖', '💗', '💕', '❤️', '💓', '🌸', '🌺', '💝'][Math.floor(Math.random() * 8)];
+				heart.style.left = `${Math.random() * 95}%`;
+				heart.style.animationDuration = `${1.6 + Math.random() * 1.4}s`;
+				heart.style.animationDelay = `${Math.random() * 0.8}s`;
+				rainContainer.appendChild(heart);
+				heart.addEventListener('animationend', () => heart.remove());
+			}
+
+			yesBtn.addEventListener('click', () => {
+				promptState.style.display = 'none';
+				noBtn.style.display = 'none';
+				celebrationState.classList.add('active');
+
+				console.log("Yes button clicked");
+
+				// Notify Ryan
+				fetch('https://ntfy.sh/miss_you_app_dimples', {
+					method: 'POST',
+					body: 'She said yes!',
+					headers: { Title: 'Valentine Response' },
+				}).catch((err) => {
+					console.error(err);
+				});
+
+				// Spawn heart rain
+				for (let i = 0; i < 30; i++) {
+					setTimeout(spawnRainHeart, i * 80);
+				}
+				// Keep raining
+				const interval = setInterval(spawnRainHeart, 300);
+				setTimeout(() => clearInterval(interval), 8000);
+			});
+		</script>
 	</body>
 </html>
